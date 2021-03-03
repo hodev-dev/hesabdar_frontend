@@ -3,18 +3,18 @@ import { Link, useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
-const Home = () => {
+const Label = () => {
   let history = useHistory();
-  const [sections, setSections] = useState([]);
+  const [labels, setLabels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    request_section();
+    request_label();
   }, [])
 
-  const request_section = () => {
-    Axios.get('/get_section').then((response) => {
-      setSections(response.data);
+  const request_label = () => {
+    Axios.get('/get_label').then((response) => {
+      setLabels(response.data);
       setIsLoading(false);
     }).catch((err) => {
       console.log(err);
@@ -22,16 +22,9 @@ const Home = () => {
   }
 
   const handleRemove = ({ id }) => {
-    Axios.post('/remove_section', { 'id': id }).then((response) => {
+    Axios.post('/remove_label', { 'id': id }).then((response) => {
       console.log({ response });
-      request_section();
-    });
-  }
-
-  const goToUpdate = (section) => {
-    history.push({
-      pathname: '/updateSection',
-      state: { section }
+      request_label();
     });
   }
 
@@ -44,17 +37,13 @@ const Home = () => {
       </tr>
     );
   } else {
-    renderTable = sections.map((section) => {
+    renderTable = labels.map((label) => {
       return (
-        <tr key={section.id} className={"font-medium text-center"}>
-          <td>{section.id}</td>
-          <td>{section.name}</td>
-          <td>{section.group_id}</td>
-          <td>{section.users}</td>
-          <td>{section.produce}</td>
+        <tr key={label.id} className={"font-medium text-center"}>
+          <td>{label.id}</td>
+          <td>{label.name}</td>
           <td className={"flex flex-col"}>
-            <button onClick={() => goToUpdate(section)} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
-            <button onClick={() => handleRemove(section)} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-red-500"}>حذف</button>
+            <button onClick={() => handleRemove(label)} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-red-500"}>حذف</button>
           </td>
         </tr >
       )
@@ -65,8 +54,8 @@ const Home = () => {
     <div className={"flex flex-row w-full h-auto"}>
       <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
         <div className={"w-full h-auto bg-gray-200 "}>
-          <Link to={'addNewSection'}>
-            <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن مرکز هزینه </button>
+          <Link to={'addLabel'}>
+            <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن شرح هزینه </button>
           </Link>
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
@@ -75,9 +64,6 @@ const Home = () => {
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
                 <th className={"p-4 font-bold"}>نام مرکز</th>
-                <th className={"p-4 font-bold"}>گروه</th>
-                <th className={"p-4 font-bold"}>تعداد پرسنل</th>
-                <th className={"p-4 font-bold"}>میزان تولید</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
               </tr>
               {renderTable}
@@ -90,4 +76,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Label

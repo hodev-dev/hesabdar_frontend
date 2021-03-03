@@ -6,7 +6,13 @@ const url = require('url'); let mainWindow; function createWindow() {
     protocol: 'file:',
     slashes: true,
   });
-  mainWindow = new BrowserWindow({ width: 1280, height: 720 });
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720, webPreferences: {
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true
+    }
+  });
   mainWindow.loadURL(startUrl);
   mainWindow.on('closed', function () {
     mainWindow = null;

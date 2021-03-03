@@ -7,6 +7,9 @@ const Sidebar = () => {
       <Link to={'/'}>
         <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-100"}>مدریت مرکز هزینه ها</button>
       </Link>
+      <Link to={'/label'}>
+        <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-100"}>مدریت شرح هزینه</button>
+      </Link>
     </div>
   )
 }

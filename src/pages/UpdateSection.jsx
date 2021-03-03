@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
-const AddNewSection = () => {
+const UpdateSection = (props) => {
+  const { section } = props.location.state;
+
   let history = useHistory();
+  const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [group, setGroup] = useState(1);
   const [workers, setWorkers] = useState(0);
   const [produce, setProduce] = useState(0);
+
+  useEffect(() => {
+    setId(section.id);
+    setName(section.name);
+    setGroup(section.group_id);
+    setWorkers(section.users);
+    setProduce(section.produce);
+  }, [])
 
   const handleName = (event) => {
     console.log(event.target.value);
@@ -28,7 +39,7 @@ const AddNewSection = () => {
   }
 
   const onSubmit = async () => {
-    const response = await Axios.post('/add_section', { name, group, workers, produce });
+    const response = await Axios.post('/update_section', { id, name, group, workers, produce });
     history.push('/');
   }
 
@@ -40,15 +51,15 @@ const AddNewSection = () => {
         </div>
         <div className={"flex flex-col items-center justify-center w-full h-screen mt-0.5 bg-gray-300"}>
           <div className={'flex flex-col items-center justify-center w-6/12 mx-auto '}>
-            <input onChange={handleName} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"نام مرکز هزینه"} dir={'rtl'} />
-            <select onChange={handleGroup} name="sellect" className={"w-8/12 h-10 p-1 mt-4 bg-gray-100"} id="" dir={'rtl'}>
+            <input onChange={handleName} defaultValue={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"نام مرکز هزینه"} dir={'rtl'} />
+            <select value={group} defaultValue={group} onChange={handleGroup} defaultChecked={0} name="sellect" className={"w-8/12 h-10 p-1 mt-4 bg-gray-100"} id="" dir={'rtl'}>
               <option value="1">تولید</option>
               <option value="2">خدمات</option>
               <option value="3">اداری</option>
             </select>
-            <input onChange={handleWorkers} type="text" className={"w-8/12 h-10 p-4 mt-4"} placeholder={"تعداد پرسنل"} dir={'rtl'} />
-            <input onChange={handleProduce} type="text" className={"w-8/12 h-10 p-4 mt-4"} placeholder={"میزان تولید"} dir={'rtl'} />
-            <button onClick={onSubmit} className={"w-8/12 p-2 mt-4 mb-4 text-xl text-white bg-blue-500"}>ثبت</button>
+            <input value={workers} onChange={handleWorkers} type="text" className={"w-8/12 h-10 p-4 mt-4"} placeholder={"تعداد پرسنل"} dir={'rtl'} />
+            <input value={produce} onChange={handleProduce} type="text" className={"w-8/12 h-10 p-4 mt-4"} placeholder={"میزان تولید"} dir={'rtl'} />
+            <button onClick={onSubmit} className={"w-8/12 p-2 mt-4 mb-4 text-xl text-white bg-blue-500"}>ویرایش رکورد</button>
           </div>
         </div>
       </div>
@@ -57,4 +68,4 @@ const AddNewSection = () => {
   )
 }
 
-export default AddNewSection
+export default UpdateSection
