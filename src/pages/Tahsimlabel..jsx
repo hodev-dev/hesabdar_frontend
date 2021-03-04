@@ -3,18 +3,18 @@ import { Link, useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
-const Label = () => {
+const TahsimLable = () => {
   let history = useHistory();
-  const [labels, setLabels] = useState([]);
+  const [tashimLabel, setTashimLabel] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    request_label();
+    requestTashimLabel();
   }, [])
 
-  const request_label = () => {
-    Axios.get('/get_label').then((response) => {
-      setLabels(response.data);
+  const requestTashimLabel = () => {
+    Axios.get('/get_tahsimlabel').then((response) => {
+      setTashimLabel(response.data);
       setIsLoading(false);
     }).catch((err) => {
       console.log(err);
@@ -22,9 +22,9 @@ const Label = () => {
   }
 
   const handleRemove = ({ id }) => {
-    Axios.post('/remove_label', { 'id': id }).then((response) => {
+    Axios.post('/remove_tashimlabel', { 'id': id }).then((response) => {
       console.log({ response });
-      request_label();
+      requestTashimLabel();
     });
   }
 
@@ -37,7 +37,7 @@ const Label = () => {
       </tr>
     );
   } else {
-    renderTable = labels.map((label) => {
+    renderTable = tashimLabel.map((label) => {
       return (
         <tr key={label.id} className={"font-medium text-center"}>
           <td>{label.id}</td>
@@ -54,7 +54,7 @@ const Label = () => {
     <div className={"flex flex-row w-full h-auto"}>
       <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
         <div className={"w-full h-auto bg-gray-200 "}>
-          <Link to={'addLabel'}>
+          <Link to={'addTahsimlable'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن شرح هزینه </button>
           </Link>
         </div>
@@ -63,7 +63,7 @@ const Label = () => {
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
-                <th className={"p-4 font-bold"}>شرح هزینه</th>
+                <th className={"p-4 font-bold"}>شرح تهسیم</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
               </tr>
               {renderTable}
@@ -76,4 +76,4 @@ const Label = () => {
   )
 }
 
-export default Label
+export default TahsimLable
