@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 const url = require('url'); let mainWindow; function createWindow() {
   const startUrl = process.env.ELECTRON_START_URL || url.format({
     pathname: path.join(__dirname, '../index.html'),
@@ -10,7 +11,9 @@ const url = require('url'); let mainWindow; function createWindow() {
     width: 1280,
     height: 720, webPreferences: {
       nodeIntegration: true,
-      nodeIntegrationInWorker: true
+      allowRunningInsecureContent: true,
+      nodeIntegrationInWorker: true,
+      webSecurity: false
     }
   });
   mainWindow.loadURL(startUrl);

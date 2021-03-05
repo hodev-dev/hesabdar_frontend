@@ -6,11 +6,19 @@ import { Axios } from '../helper/Axios';
 const AddLabel = () => {
   let history = useHistory();
   const [name, setName] = useState('');
+  const [code, setCode] = useState(0);
+  const [groupCode, setGroupCode] = useState(0);
 
   const handleName = (event) => {
-    console.log(event.target.value);
     setName(event.target.value)
   }
+  const handleCode = (event) => {
+    setCode(event.target.value)
+  }
+  const handleGroupCode = (event) => {
+    setGroupCode(event.target.value)
+  }
+
   const onSubmit = async () => {
     const response = await Axios.post('/add_label', { name });
     history.push('/label');
@@ -24,7 +32,9 @@ const AddLabel = () => {
         </div>
         <div className={"flex flex-col items-center justify-center w-full h-screen mt-0.5 bg-gray-300"}>
           <div className={'flex flex-col items-center justify-center w-6/12 mx-auto '}>
-            <input onChange={handleName} defaultValue={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"نام شرح هزینه"} dir={'rtl'} />
+            <input onChange={handleName} defaultValue={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"شرح هزینه"} dir={'rtl'} />
+            <input onChange={handleCode} defaultValue={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"کد شرح"} dir={'rtl'} />
+            <input onChange={handleName} defaultValue={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"کد گروه"} dir={'rtl'} />
             <button onClick={onSubmit} className={"w-8/12 p-2 mt-4 mb-4 text-xl text-white bg-blue-500"}>ثبت</button>
           </div>
         </div>
