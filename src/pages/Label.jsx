@@ -5,7 +5,7 @@ import { Axios } from '../helper/Axios';
 
 const Label = () => {
   let history = useHistory();
-  const exelImportRef = useRef(null);
+  const importExelRef = useRef(null);
   const [labels, setLabels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,7 +53,7 @@ const Label = () => {
   }
 
   const handelExelImport = (event) => {
-    const file = exelImportRef.current.files[0];
+    const file = importExelRef.current.files[0];
     console.log({ file });
     var formData = new FormData();
     formData.append("exel", file);
@@ -82,7 +82,7 @@ const Label = () => {
   }
 
   const handleClickOnImportExel = () => {
-    exelImportRef.current.click();
+    importExelRef.current.click();
   }
 
   return (
@@ -97,7 +97,7 @@ const Label = () => {
           <button onClick={handleExportExcel} className={"w-auto h-auto p-3 text-center text-white bg-green-600 hover:bg-green-500"}>Exel خروجی</button>
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
-          <input onChange={handelExelImport} ref={exelImportRef} type="file" name="exel" id="" className={"hidden"} multiple />
+          <input onChange={handelExelImport} ref={importExelRef} type="file" name="exel" id="" className={"hidden"} multiple />
           <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>

@@ -52,7 +52,7 @@ const ListCosts = (props) => {
       return (
         <tr key={cost.id} className={"font-medium text-center"}>
           <td>{cost.id}</td>
-          <td>{cost.cost_label}</td>
+          <td>{cost.label_id}</td>
           <td>{cost.value}</td>
           <td className={"flex flex-col"}>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
