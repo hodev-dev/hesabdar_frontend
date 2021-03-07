@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
-const ListCosts = (props) => {
+const LabelCost = (props) => {
   const { state } = props.location;
   let history = useHistory();
   const [costs, setCosts] = useState([]);
+  const [sum, setSum] = useState(0);
+  const [rangeSum, setRangeSum] = useState(0);
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    request_section(state);
+    request_costs();
   }, [])
 
-  const request_section = () => {
-    const { section } = state;
-    Axios.post('/get_section_cost_with_id', section).then((response) => {
+  const request_costs = () => {
+    const { label } = state;
+    console.log({ label });
+    Axios.post('/get_label_cost', { 'label_id': label.id, 'group_code': label.group_code, 'code': label.code }).then((response) => {
       setCosts(response.data.costs);
-      setSection(response.data);
+      setSum(response.data.sum);
+      setRangeSum(response.data.range_sum);
       setIsLoading(false);
       console.log('response', response);
     }).catch((err) => {
@@ -28,7 +32,7 @@ const ListCosts = (props) => {
   const handleRemove = ({ id }) => {
     Axios.post('/remove_section', { 'id': id }).then((response) => {
       console.log({ response });
-      request_section();
+      request_costs();
     });
   }
 
@@ -48,15 +52,15 @@ const ListCosts = (props) => {
       </tr>
     );
   } else {
-    renderTable = costs.map((cost) => {
+    renderTable = costs.map((cost, index) => {
       return (
         <tr key={cost.id} className={"font-medium text-center"}>
-          <td>{cost.id}</td>
-          <td>{cost.label_id}</td>
-          <td>{cost.group_id}</td>
-          <td>{cost.value}</td>
+          <td className={"font-mono"}>{cost.id}</td>
+          <td className={"font-mono"}>{cost.label_id}</td>
+          <td className={"font-mono"}>{cost.group_id}</td>
+          <td className={"font-mono"}>{Number(cost.value).toLocaleString()}</td>
           <td className={"flex flex-col"}>
-            <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
+            {/* <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button> */}
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>حذف</button>
           </td>
         </tr >
@@ -73,14 +77,14 @@ const ListCosts = (props) => {
           </Link>
         </div>
         <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
-          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + section.name}</h1>
+          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + state.label.name}</h1>
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-4 bg-gray-300"}>
           <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
-                <th className={"p-4 font-bold"}>شرح هزینه</th>
+                <th className={"p-4 font-bold"}>کد شرح</th>
                 <th className={"p-4 font-bold"}>گروه</th>
                 <th className={"p-4 font-bold"}>هزینه به ریال</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
@@ -89,10 +93,18 @@ const ListCosts = (props) => {
             </tbody>
           </table>
         </div>
+        <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
+          <div className={"w-11/12 h-auto p-4 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
+            <h1 className={'font-mono text-base'}>{'جمع معین' + ' ' + Number(sum).toLocaleString() + ' ' + 'ریال'}</h1>
+          </div>
+          <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
+            <h1 className={'font-mono text-base'}>{'جمع کل' + ' ' + Number(rangeSum).toLocaleString() + ' ' + 'ریال'}</h1>
+          </div>
+        </div>
       </div>
       <Sidebar />
     </div>
   )
 }
 
-export default ListCosts
+export default LabelCost

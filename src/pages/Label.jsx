@@ -28,6 +28,13 @@ const Label = () => {
     });
   }
 
+  const goToCosts = (label) => {
+    history.push({
+      pathname: '/labelCost',
+      state: { label }
+    });
+  }
+
   let renderTable;
 
   if (isLoading) {
@@ -45,6 +52,7 @@ const Label = () => {
           <td>{label.group_code}</td>
           <td>{label.name}</td>
           <td className={"flex flex-col"}>
+            <button onClick={() => goToCosts(label)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-red-500"}>مدریت هزینه</button>
             <button onClick={() => handleRemove(label)} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-red-500"}>حذف</button>
           </td>
         </tr >
