@@ -75,7 +75,7 @@ const ManageCosts = () => {
           <td>{section.users}</td>
           <td>{section.produce}</td>
           <td className={"flex flex-col"}>
-            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>مدریت هزینه</button>
+            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
           </td>
         </tr >
       )

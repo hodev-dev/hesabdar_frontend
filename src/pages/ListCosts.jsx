@@ -51,11 +51,12 @@ const ListCosts = (props) => {
     renderTable = costs.map((cost) => {
       return (
         <tr key={cost.id} className={"font-medium text-center"}>
-          <td>{cost.id}</td>
-          <td>{cost.label_id}</td>
-          <td>{cost.group_id}</td>
-          <td>{cost.value}</td>
-          <td className={"flex flex-col"}>
+          <td className={"font-mono"}>{cost.id}</td>
+          <td className={"font-mono"}>{cost.label_id}</td>
+          <td className={"font-mono"}>{cost.label.name}</td>
+          <td className={"font-mono"}>{cost.group_id}</td>
+          <td className={"font-mono"}>{Number(cost.value).toLocaleString()}</td>
+          <td className={"flex flex-col no-print"}>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>حذف</button>
           </td>
@@ -67,7 +68,7 @@ const ListCosts = (props) => {
   return (
     <div className={"flex flex-row w-full h-auto"}>
       <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
-        <div className={"w-full h-12 bg-gray-200 "}>
+        <div className={"w-full h-12 bg-gray-200 no-print"}>
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
           </Link>
@@ -80,10 +81,11 @@ const ListCosts = (props) => {
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
+                <th className={"p-4 font-bold"}>کد شرح</th>
                 <th className={"p-4 font-bold"}>شرح هزینه</th>
                 <th className={"p-4 font-bold"}>گروه</th>
                 <th className={"p-4 font-bold"}>هزینه به ریال</th>
-                <th className={"p-4 font-bold"}>عملیات</th>
+                <th className={"p-4 font-bold no-print"}>عملیات</th>
               </tr>
               {renderTable}
             </tbody>

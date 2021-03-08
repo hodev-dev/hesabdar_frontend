@@ -57,6 +57,7 @@ const LabelCost = (props) => {
         <tr key={cost.id} className={"font-medium text-center"}>
           <td className={"font-mono"}>{cost.id}</td>
           <td className={"font-mono"}>{cost.label_id}</td>
+          <td className={"font-mono"}>{cost.label.name}</td>
           <td className={"font-mono"}>{cost.group_id}</td>
           <td className={"font-mono"}>{Number(cost.value).toLocaleString()}</td>
           <td className={"flex flex-col"}>
@@ -77,7 +78,7 @@ const LabelCost = (props) => {
           </Link>
         </div>
         <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
-          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + state.label.name}</h1>
+          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{"0" + state.label.code + ' ' + '-' + ' ' + state.label.name}</h1>
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-4 bg-gray-300"}>
           <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
@@ -85,6 +86,7 @@ const LabelCost = (props) => {
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
                 <th className={"p-4 font-bold"}>کد شرح</th>
+                <th className={"p-4 font-bold"}>شرح هزینه</th>
                 <th className={"p-4 font-bold"}>گروه</th>
                 <th className={"p-4 font-bold"}>هزینه به ریال</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
