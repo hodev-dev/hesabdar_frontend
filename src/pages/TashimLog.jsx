@@ -3,20 +3,21 @@ import { Link, useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
-const ManageCosts = () => {
+const TashimLog = () => {
   let history = useHistory();
   const importExelRef = useRef(null);
 
-  const [sections, setSections] = useState([]);
+  const [tashimLogs, setTashimLog] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    request_section();
+    request_tashim_log();
   }, [])
 
-  const request_section = () => {
-    Axios.get('/get_section_cost').then((response) => {
-      setSections(response.data);
+  const request_tashim_log = () => {
+    Axios.get('/get_tashim_log').then((response) => {
+      console.log({ response });
+      setTashimLog(response.data);
       setIsLoading(false);
     }).catch((err) => {
       console.log(err);
@@ -26,7 +27,7 @@ const ManageCosts = () => {
   const handleRemove = ({ id }) => {
     Axios.post('/remove_section', { 'id': id }).then((response) => {
       console.log({ response });
-      request_section();
+      request_tashim_log();
     });
   }
 
@@ -40,7 +41,7 @@ const ManageCosts = () => {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      request_section();
+      request_tashim_log();
     }).catch(({ err }) => {
       console.log({ err });
     });
@@ -66,18 +67,17 @@ const ManageCosts = () => {
       </tr>
     );
   } else {
-    renderTable = sections.map((section) => {
+    renderTable = tashimLogs.map((tashimLog) => {
       return (
-        <tr key={section.id} className={"font-medium text-center hover:bg-gray-300"}>
-          <td>{section.id}</td>
-          <td>{section.name}</td>
-          <td>{section.group_id}</td>
-          <td>{section.users}</td>
-          <td>{section.produce}</td>
-          <td className={"flex flex-col"}>
-            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
-            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-indigo-300 border border-gray-200 border-none font-small hover:bg-indigo-500"}>گزارش تسهیم</button>
-          </td>
+        <tr key={tashimLog.id} className={`font-medium text-center ${(tashimLog.type === 0) ? "bg-red-200" : 'bg-green-200'}`}>
+          <td>{tashimLog.id}</td>
+          <td>{tashimLog.label_id}</td>
+          <td>{tashimLog.from_section_id}</td>
+          <td>{tashimLog.to_section_id}</td>
+          <td>{tashimLog.prev_value}</td>
+          <td>{tashimLog.receive}</td>
+          <td>{tashimLog.send}</td>
+          <td>{tashimLog.final}</td>
         </tr >
       )
     });
@@ -98,11 +98,13 @@ const ManageCosts = () => {
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
-                <th className={"p-4 font-bold"}>نام مرکز</th>
-                <th className={"p-4 font-bold"}>گروه</th>
-                <th className={"p-4 font-bold"}>تعداد پرسنل</th>
-                <th className={"p-4 font-bold"}>میزان تولید</th>
-                <th className={"p-4 font-bold"}>عملیات</th>
+                <th className={"p-4 font-bold"}>شرح هزینه</th>
+                <th className={"p-4 font-bold"}>از مرکز</th>
+                <th className={"p-4 font-bold"}>به مرکز</th>
+                <th className={"p-4 font-bold"}>مقدار اولیه</th>
+                <th className={"p-4 font-bold"}>دریافتی</th>
+                <th className={"p-4 font-bold"}>ارسالی</th>
+                <th className={"p-4 font-bold"}>مانده</th>
               </tr>
               {renderTable}
             </tbody>
@@ -114,4 +116,4 @@ const ManageCosts = () => {
   )
 }
 
-export default ManageCosts
+export default TashimLog

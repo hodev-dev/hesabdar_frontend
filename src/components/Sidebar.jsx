@@ -16,6 +16,9 @@ const Sidebar = () => {
       <Link to={'/tahsimLabel'}>
         <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-100"}>مدریت شرح تهسیم</button>
       </Link>
+      <Link to={'/tahsimLog'}>
+        <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-100"}>گزارش تسهیم</button>
+      </Link>
     </div>
   )
 }

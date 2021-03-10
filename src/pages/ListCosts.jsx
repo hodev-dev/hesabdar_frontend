@@ -41,6 +41,12 @@ const ListCosts = (props) => {
     });
   }
 
+  const handleTashim = () => {
+    Axios.post('/tashim', { 'id': section.id }).then((response) => {
+      console.log({ response });
+    });
+  }
+
   let renderTable;
 
   if (isLoading) {
@@ -54,7 +60,7 @@ const ListCosts = (props) => {
       return (
         <tr key={cost.id} className={"font-medium text-center"}>
           <td className={"font-mono"}>{cost.id}</td>
-          <td className={"font-mono"}>{cost.label_id}</td>
+          <td className={"font-mono"}>{cost.label.code}</td>
           <td className={"font-mono"}>{cost.label.name}</td>
           <td className={"font-mono"}>{cost.group_id}</td>
           <td className={"font-mono"}>{Number(cost.value).toLocaleString()}</td>
@@ -74,6 +80,7 @@ const ListCosts = (props) => {
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
           </Link>
+          <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تسهیم هزینه ها</button>
         </div>
         <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
           <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + section.name}</h1>

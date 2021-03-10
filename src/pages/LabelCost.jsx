@@ -56,7 +56,7 @@ const LabelCost = (props) => {
       return (
         <tr key={cost.id} className={"font-medium text-center"}>
           <td className={"font-mono"}>{cost.id}</td>
-          <td className={"font-mono"}>{cost.label_id}</td>
+          <td className={"font-mono"}>{cost.label.code}</td>
           <td className={"font-mono"}>{cost.section.name}</td>
           <td className={"font-mono"}>{cost.group_id}</td>
           <td className={"font-mono"}>{Number(cost.value).toLocaleString()}</td>
