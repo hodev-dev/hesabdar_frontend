@@ -9,6 +9,7 @@ import Label from './pages/Label';
 import LabelCost from './pages/LabelCost';
 import ListCosts from './pages/ListCosts';
 import ManageCosts from './pages/ManageCosts';
+import SectionTahsim from './pages/SectionTahsim';
 import TahsimLable from './pages/Tahsimlabel.';
 import TashimLog from './pages/TashimLog';
 import UpdateSection from './pages/UpdateSection';
@@ -28,6 +29,7 @@ function App() {
         <Route exact path="/addTahsimlable" component={AddTahsimlable} />
         <Route exact path="/labelCost" component={LabelCost} />
         <Route exact path="/tahsimLog" component={TashimLog} />
+        <Route exact path="/sectionTahsim" component={SectionTahsim} />
       </Switch>
     </Router>
   );

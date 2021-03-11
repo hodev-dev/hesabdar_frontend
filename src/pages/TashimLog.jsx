@@ -69,15 +69,15 @@ const TashimLog = () => {
   } else {
     renderTable = tashimLogs.map((tashimLog) => {
       return (
-        <tr key={tashimLog.id} className={`font-medium text-center ${(tashimLog.type === 0) ? "bg-red-200" : 'bg-green-200'}`}>
-          <td>{tashimLog.id}</td>
-          <td>{tashimLog.label_id}</td>
-          <td>{tashimLog.from_section_id}</td>
-          <td>{tashimLog.to_section_id}</td>
-          <td>{tashimLog.prev_value}</td>
-          <td>{tashimLog.receive}</td>
-          <td>{tashimLog.send}</td>
-          <td>{tashimLog.final}</td>
+        <tr key={tashimLog.id} className={`font-medium text-center ${(tashimLog.type === 0) ? "bg-red-100" : 'bg-green-100'}`}>
+          <td className={'font-mono'}>{Number(tashimLog.id).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.label_id).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.from_section_id).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.to_section_id).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.prev_value).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.receive).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.send).toLocaleString()}</td>
+          <td className={'font-mono'}>{Number(tashimLog.final).toLocaleString()}</td>
         </tr >
       )
     });

@@ -57,6 +57,13 @@ const ManageCosts = () => {
     });
   }
 
+  const goToSectionTahsim = (section) => {
+    history.push({
+      pathname: '/sectionTahsim',
+      state: { section }
+    });
+  }
+
   let renderTable;
 
   if (isLoading) {
@@ -75,8 +82,8 @@ const ManageCosts = () => {
           <td>{section.users}</td>
           <td>{section.produce}</td>
           <td className={"flex flex-col"}>
-            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
-            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 bg-indigo-300 border border-gray-200 border-none font-small hover:bg-indigo-500"}>گزارش تسهیم</button>
+            <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 text-white bg-blue-800 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
+            <button onClick={() => goToSectionTahsim(section)} className={"w-full h-auto p-2 text-white bg-indigo-800 border border-gray-200 border-none font-small hover:bg-indigo-500"}>گزارش تسهیم</button>
           </td>
         </tr >
       )
