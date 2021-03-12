@@ -52,7 +52,7 @@ const Label = () => {
           <td>{label.group_code}</td>
           <td>{label.name}</td>
           <td className={"flex flex-col"}>
-            <button onClick={() => goToCosts(label)} className={"w-full h-auto p-2 bg-blue-300 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
+            <button onClick={() => goToCosts(label)} className={"w-full h-auto p-2 text-white bg-blue-800 border border-gray-200 border-none outline-none font-small hover:bg-blue-700"}>مدریت هزینه</button>
             {/* <button onClick={() => handleRemove(label)} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-red-500"}>حذف</button> */}
           </td>
         </tr >
@@ -94,8 +94,8 @@ const Label = () => {
   }
 
   return (
-    <div className={"flex flex-row w-full bg-gray-200"}>
-      <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
+    <div className={"flex flex-row w-full overflow-hidden bg-gray-200"}>
+      <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300"}>
         <div className={"w-full h-auto bg-gray-200 "}>
           <Link to={'addLabel'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-500"}>افزودن شرح هزینه </button>

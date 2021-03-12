@@ -59,7 +59,7 @@ const SectionTahsim = (props) => {
   } else {
     renderTable = costs.map((cost) => {
       return (
-        <tr key={cost.id} className={"font-medium text-center bg-gray-200"}>
+        <tr key={cost.id} className={"font-medium text-center bg-gray-200 hover:bg-gray-300"}>
           <td className={"p-4 font-mono"}>{cost.id}</td>
           <td className={"p-4 font-mono"}>{cost.label.code}</td>
           <td className={"p-4 font-mono"}>{cost.label.name}</td>

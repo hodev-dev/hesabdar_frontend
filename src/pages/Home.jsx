@@ -46,7 +46,7 @@ const Home = () => {
   } else {
     renderTable = sections.map((section) => {
       return (
-        <tr key={section.id} className={"font-medium text-center"}>
+        <tr key={section.id} className={"font-medium text-center hover:bg-gray-300"}>
           <td>{section.id}</td>
           <td>{section.code}</td>
           <td>{section.name}</td>
@@ -65,8 +65,8 @@ const Home = () => {
   }
 
   return (
-    <div className={"flex flex-row w-full h-auto"}>
-      <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
+    <div className={"sticky top-0 flex flex-row w-full h-auto overflow-hidden bg-red-400"}>
+      <div className={"flex flex-col w-10/12 h-screen overflow-y-scroll bg-gray-300"}>
         <div className={"w-full h-auto bg-gray-200 "}>
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن مرکز هزینه </button>

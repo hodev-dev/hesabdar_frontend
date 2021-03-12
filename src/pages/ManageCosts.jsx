@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
@@ -69,7 +70,14 @@ const ManageCosts = () => {
   if (isLoading) {
     renderTable = (
       <tr>
-        <td>loading</td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
       </tr>
     );
   } else {
@@ -83,7 +91,7 @@ const ManageCosts = () => {
           <td>{section.produce}</td>
           <td className={"flex flex-col"}>
             <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 text-white bg-blue-800 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
-            <button onClick={() => goToSectionTahsim(section)} className={"w-full h-auto p-2 text-white bg-indigo-800 border border-gray-200 border-none font-small hover:bg-indigo-500"}>گزارش تسهیم</button>
+            <button onClick={() => goToSectionTahsim(section)} className={"w-full h-auto p-2 text-white border border-gray-200 border-none bg-violet-800 font-small hover:bg-violet-500"}>گزارش تسهیم</button>
           </td>
         </tr >
       )
@@ -91,8 +99,8 @@ const ManageCosts = () => {
   }
 
   return (
-    <div className={"flex flex-row w-full h-auto"}>
-      <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
+    <div className={"flex flex-row w-full h-auto overflow-hidden"}>
+      <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300"}>
         <div className={"w-full h-12 bg-gray-200 "}>
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن مرکز هزینه </button>

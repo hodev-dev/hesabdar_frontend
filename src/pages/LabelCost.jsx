@@ -54,18 +54,18 @@ const LabelCost = (props) => {
   } else {
     renderTable = costs.map((cost, index) => {
       return (
-        <tr key={cost.id} className={"font-medium text-center"}>
-          <td className={"font-mono"}>{cost.id}</td>
-          <td className={"font-mono"}>{cost.label.code}</td>
-          <td className={"font-mono"}>{cost.section.name}</td>
-          <td className={"font-mono"}>{cost.group_id}</td>
-          <td className={"font-mono"}>{Number(cost.prev_value).toLocaleString()}</td>
-          <td className={"font-mono"}>{Number(cost.change).toLocaleString()}</td>
-          <td className={"font-mono"}>{Number(cost.final).toLocaleString()}</td>
-          <td className={"flex flex-col"}>
-            {/* <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button> */}
+        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300"}>
+          <td className={"p-4 font-mono"}>{cost.id}</td>
+          <td className={"p-4 font-mono"}>{cost.label.code}</td>
+          <td className={"p-4 font-mono"}>{cost.section.name}</td>
+          <td className={"p-4 font-mono"}>{cost.group_id}</td>
+          <td className={"p-4 font-mono"}>{Number(cost.prev_value).toLocaleString()}</td>
+          <td className={"p-4 font-mono"}>{Number(cost.change).toLocaleString()}</td>
+          <td className={"p-4 font-mono"}>{Number(cost.final).toLocaleString()}</td>
+          {/* <td className={"flex flex-col"}>
+            <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>حذف</button>
-          </td>
+          </td> */}
         </tr >
       )
     });
@@ -93,7 +93,7 @@ const LabelCost = (props) => {
                 <th className={"p-4 font-bold"}>هزینه به ریال</th>
                 <th className={"p-4 font-bold"}>تغییرات نسهیم</th>
                 <th className={"p-4 font-bold"}>مانده به ریال</th>
-                <th className={"p-4 font-bold no-print"}>عملیات</th>
+                {/* <th className={"p-4 font-bold no-print"}>عملیات</th> */}
               </tr>
               {renderTable}
             </tbody>

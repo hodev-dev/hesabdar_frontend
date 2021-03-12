@@ -9,6 +9,7 @@ const ListCosts = (props) => {
   let history = useHistory();
   const [costs, setCosts] = useState([]);
   const [sum, setSum] = useState(0);
+  const [finalSum, setFinalSum] = useState(0);
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -23,6 +24,7 @@ const ListCosts = (props) => {
       setSection(response.data.sections_with_costs);
       setIsLoading(false);
       setSum(response.data.sum)
+      setFinalSum(response.data.final_sum)
       console.log('response', response);
     }).catch((err) => {
       console.log(err);
@@ -70,18 +72,18 @@ const ListCosts = (props) => {
   } else {
     renderTable = costs.map((cost) => {
       return (
-        <tr key={cost.id} className={"font-medium text-center"}>
-          <td className={"font-mono"}>{cost.id}</td>
-          <td className={"font-mono"}>{cost.label.code}</td>
-          <td className={"font-mono"}>{cost.label.name}</td>
-          <td className={"font-mono"}>{cost.group_id}</td>
-          <td className={"font-mono"}>{Number(cost.prev_value).toLocaleString()}</td>
-          <td className={"font-mono"}>{Number(cost.change).toLocaleString()}</td>
-          <td className={"font-mono"}>{Number(cost.final).toLocaleString()}</td>
-          <td className={"flex flex-col no-print"}>
+        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300"}>
+          <td className={"p-5 font-mono"}>{cost.id}</td>
+          <td className={"p-5 font-mono"}>{cost.label.code}</td>
+          <td className={"p-5 font-mono"}>{cost.label.name}</td>
+          <td className={"p-5 font-mono"}>{cost.group_id}</td>
+          <td className={"p-5 font-mono"}>{Number(cost.prev_value).toLocaleString()}</td>
+          <td className={"p-5 font-mono"}>{Number(cost.change).toLocaleString()}</td>
+          <td className={"p-5 font-mono"}>{Number(cost.final).toLocaleString()}</td>
+          {/* <td className={"flex flex-col no-print"}>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>حذف</button>
-          </td>
+          </td> */}
         </tr >
       )
     });
@@ -110,7 +112,7 @@ const ListCosts = (props) => {
                 <th className={"p-4 font-bold"}>هزینه به ریال</th>
                 <th className={"p-4 font-bold"}>تغییرات نسهیم</th>
                 <th className={"p-4 font-bold"}>مانده به ریال</th>
-                <th className={"p-4 font-bold no-print"}>عملیات</th>
+                {/* <th className={"p-4 font-bold no-print"}>عملیات</th> */}
               </tr>
               {renderTable}
             </tbody>
@@ -118,6 +120,9 @@ const ListCosts = (props) => {
           <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 mb-2 bg-gray-300"}>
             <div className={"w-11/12 h-auto p-4 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
               <h1 className={'font-mono text-base'}>{'جمع کل' + ' ' + Number(sum).toLocaleString() + ' ' + 'ریال'}</h1>
+            </div>
+            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-base'}>{'جمع مانده' + ' ' + Number(finalSum).toLocaleString() + ' ' + 'ریال'}</h1>
             </div>
           </div>
         </div>
