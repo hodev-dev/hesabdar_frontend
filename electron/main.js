@@ -13,6 +13,7 @@ const url = require('url'); let mainWindow; function createWindow() {
       nodeIntegration: true,
       allowRunningInsecureContent: true,
       nodeIntegrationInWorker: true,
+      nativeWindowOpen: true,
       webSecurity: false
     }
   });

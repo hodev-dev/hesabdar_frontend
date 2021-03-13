@@ -54,6 +54,10 @@ const ListCosts = (props) => {
     });
   }
 
+  const handlePrint = () => {
+    window.print();
+  }
+
   let renderTable;
 
   if (isLoading) {
@@ -97,6 +101,7 @@ const ListCosts = (props) => {
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
           </Link>
           <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تسهیم هزینه ها</button>
+          <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
         </div>
         <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
           <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + section.name}</h1>
