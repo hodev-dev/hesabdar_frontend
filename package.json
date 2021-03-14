@@ -2,7 +2,7 @@
   "name": "accountant",
   "version": "0.1.0",
   "homepage": "./sites/app/",
-  "productName": "Electron Create React App Example",
+  "productName": "hesabdar",
   "main": "electron/main.js",
   "private": true,
   "dependencies": {
