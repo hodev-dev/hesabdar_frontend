@@ -1,9 +1,10 @@
 {
   "name": "accountant",
   "version": "0.1.0",
-  "homepage": "./sites/app/",
+  "homepage": "./",
   "productName": "hesabdar",
-  "main": "electron/main.js",
+  "author": "Hosein Mola <aeonthread@gmail.com>",
+  "main": "build/electron/main.js",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
@@ -11,6 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "electron-is-dev": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -24,9 +26,9 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "app:start": "export ELECTRON_START_URL=http://localhost:3000 && ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
+    "app:start": " ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
     "app:build": "mkdir build/src && cp -r electron/. build/electron",
-    "app:pack": "electron-builder build --win --ia32  -c.extraMetadata.main=build/electron/main.js --publish never"
+    "app:pack": "electron-builder build  --win"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +55,33 @@
     "electron-builder": "^22.10.5",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+  },
+  "build": {
+    "asar": false,
+    "extends": null,
+    "linux": {
+      "executableName": "hesabdar",
+      "target": [
+        "deb"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "files": [
+      "build/**/*",
+      "assets/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   }
 }

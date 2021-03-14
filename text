@@ -1,0 +1,4 @@
+-c.extraMetadata.main=build/electron/main.js --publish never
+
+export ELECTRON_START_URL=http://localhost:3000 && 
+export ELECTRON_IS_DEV=0 &&
