@@ -4,7 +4,7 @@
   "homepage": "./",
   "productName": "hesabdar",
   "author": "Hosein Mola <aeonthread@gmail.com>",
-  "main": "build/electron/main.js",
+  "main": "electron/main.js",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
@@ -13,8 +13,10 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "electron-is-dev": "^2.0.0",
+    "persian-number": "^1.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-spinners-kit": "^1.9.1",
@@ -26,7 +28,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "app:start": " ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
+    "app:start": "export ELECTRON_IS_DEV=1 && ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
     "app:build": "mkdir build/src && cp -r electron/. build/electron",
     "app:pack": "electron-builder build  --win"
   },
