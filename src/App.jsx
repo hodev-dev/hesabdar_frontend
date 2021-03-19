@@ -24,10 +24,10 @@ function App() {
         <Route exact path="/label" component={Label} />
         <Route exact path="/addLabel" component={AddLabel} />
         <Route exact path="/manageCosts" component={ManageCosts} />
-        <Route exact path="/listCosts" component={ListCosts} />
+        <Route exact path="/listCosts/:id" component={ListCosts} />
         <Route exact path="/tahsimLabel" component={TahsimLable} />
         <Route exact path="/addTahsimlable" component={AddTahsimlable} />
-        <Route exact path="/labelCost" component={LabelCost} />
+        <Route exact path="/labelCost/:id/:group_code/:code/:name/" component={LabelCost} />
         <Route exact path="/tahsimLog" component={TashimLog} />
         <Route exact path="/sectionTahsim" component={SectionTahsim} />
       </Switch>

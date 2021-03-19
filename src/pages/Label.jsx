@@ -30,7 +30,7 @@ const Label = () => {
 
   const goToCosts = (label) => {
     history.push({
-      pathname: '/labelCost',
+      pathname: '/labelCost/' + label.id + '/' + label.group_code + '/' + label.code + '/' + label.name,
       state: { label }
     });
   }

@@ -53,7 +53,7 @@ const ManageCosts = () => {
 
   const goToCosts = (section) => {
     history.push({
-      pathname: '/listCosts',
+      pathname: '/listCosts/' + section.id,
       state: { section }
     });
   }

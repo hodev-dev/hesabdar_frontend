@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
 const ListCosts = (props) => {
   const { state } = props.location;
+  const { id } = useParams();
   let history = useHistory();
   const [costs, setCosts] = useState([]);
   const [sum, setSum] = useState(0);
@@ -14,12 +15,11 @@ const ListCosts = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    request_section(state);
+    request_section();
   }, [])
 
   const request_section = () => {
-    const { section } = state;
-    Axios.post('/get_section_cost_with_id', { 'id': section.id }).then((response) => {
+    Axios.post('/get_section_cost_with_id', { 'id': id }).then((response) => {
       setCosts(response.data.sections_with_costs.costs);
       setSection(response.data.sections_with_costs);
       setIsLoading(false);

@@ -1,11 +1,12 @@
 import PN from "persian-number";
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
 const LabelCost = (props) => {
   const { state } = props.location;
+  const { id, group_code, code, name } = useParams();
   let history = useHistory();
   const [costs, setCosts] = useState([]);
   const [sum, setSum] = useState(0);
@@ -18,9 +19,7 @@ const LabelCost = (props) => {
   }, [])
 
   const request_costs = () => {
-    const { label } = state;
-    console.log({ label });
-    Axios.post('/get_label_cost', { 'label_id': label.id, 'group_code': label.group_code, 'code': label.code }).then((response) => {
+    Axios.post('/get_label_cost', { 'label_id': id, 'group_code': group_code, 'code': code }).then((response) => {
       setCosts(response.data.costs);
       setSum(response.data.sum);
       setRangeSum(response.data.range_sum);
@@ -89,7 +88,7 @@ const LabelCost = (props) => {
             <h1 className={"w-6/12 text-center bg-white"}>شرکت نورد و لوله ی سپنتا اهواز - سهامی خاص</h1>
           </div>
           <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
-            <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600 print:mr-1 print:text-lg"}>{"0" + state.label.code + ' ' + '-' + ' ' + state.label.name}</h1>
+            <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600 print:mr-1 print:text-lg"}>{"0" + code + ' ' + '-' + ' ' + name}</h1>
           </div>
           <div className={"flex items-center justify-center w-full h-auto mt-4 bg-gray-300"}>
             <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
