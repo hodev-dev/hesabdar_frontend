@@ -1,4 +1,7 @@
+import PN from 'persian-number';
 import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
@@ -45,12 +48,28 @@ const ListCosts = (props) => {
     });
   }
 
-  const handleTashim = () => {
+  const startTashim = (onClose) => {
     setIsLoading(true);
+    onClose();
     Axios.post('/tahsim', { 'id': section.id }).then((response) => {
       console.log({ response });
       setIsLoading(false);
       request_section();
+    });
+  }
+
+  const handleTashim = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='flex flex-col items-center justify-center w-screen h-screen bg-transparent'>
+            <div className={"flex flex-row items-center justify-center w-6/12 h-96"}>
+              <button onClick={onClose} className={"w-4/12 p-5 text-2xl text-white bg-red-400 border rounded-lg"}>لغو</button>
+              <button onClick={() => startTashim(onClose)} className={"w-4/12 p-5 ml-5 text-2xl text-white bg-green-500 border rounded-lg"}>تسهیم هزینه</button>
+            </div>
+          </div>
+        );
+      }
     });
   }
 
@@ -70,20 +89,19 @@ const ListCosts = (props) => {
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
-        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
       </tr>
     );
   } else {
-    renderTable = costs.map((cost) => {
+    renderTable = costs.map((cost, index) => {
       return (
-        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300"}>
-          <td className={"p-5 font-mono"}>{cost.id}</td>
-          <td className={"p-5 font-mono"}>{cost.label.code}</td>
-          <td className={"p-5 font-mono"}>{cost.label.name}</td>
-          <td className={"p-5 font-mono"}>{cost.group_id}</td>
-          <td className={"p-5 font-mono"}>{Number(cost.prev_value).toLocaleString()}</td>
-          <td className={"p-5 font-mono"}>{Number(cost.change).toLocaleString()}</td>
-          <td className={"p-5 font-mono"}>{Number(cost.final).toLocaleString()}</td>
+        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(index + 1))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm print:hidden"}>{PN.convertEnToPe(Number(cost.label.code))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{cost.label.name}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm print:hidden"}>{PN.convertEnToPe(Number(cost.group_id))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(cost.prev_value).toLocaleString())}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(cost.change).toLocaleString())}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(cost.final).toLocaleString())}</td>
           {/* <td className={"flex flex-col no-print"}>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
             <button onClick={() => 0} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>حذف</button>
@@ -94,40 +112,43 @@ const ListCosts = (props) => {
   }
 
   return (
-    <div className={"flex flex-row w-full h-auto"}>
-      <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
-        <div className={"w-full h-12 bg-gray-200 no-print"}>
+    <div className={"flex flex-row w-full min-h-screen overflow-hidden"}>
+      <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300 print:w-full"}>
+        <div className={"w-full h-12 bg-gray-200 print:hidden"}>
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
           </Link>
           <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تسهیم هزینه ها</button>
           <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
         </div>
+        <div className={"flex-row justify-center hidden w-full h-auto text-2xl print:flex"}>
+          <h1 className={"w-6/12 text-center bg-white"}>شرکت نورد و لوله ی سپنتا اهواز - سهامی خاص</h1>
+        </div>
         <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
-          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600"}>{'هزینه های' + ' ' + section.name}</h1>
+          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600 print:mr-0 print:text-lg"}>{'هزینه های' + ' ' + section.name}</h1>
         </div>
         <div className={"flex flex-col items-center justify-center w-full h-auto mt-4 bg-gray-300"}>
-          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
+          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
             <tbody>
-              <tr className={"text-gray-700 border border-gray-300"}>
-                <th className={"p-4 font-bold no-print"}>ردیف</th>
-                <th className={"p-4 font-bold"}>کد شرح</th>
-                <th className={"p-4 font-bold"}>شرح هزینه</th>
-                <th className={"p-4 font-bold"}>گروه</th>
-                <th className={"p-4 font-bold"}>هزینه به ریال</th>
-                <th className={"p-4 font-bold"}>تغییرات نسهیم</th>
-                <th className={"p-4 font-bold"}>مانده به ریال</th>
+              <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>ردیف</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1 print:hidden"}>کد شرح</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1 print:hidden"}>گروه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>هزینه به ریال</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>تغییرات نسهیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مانده به ریال</th>
                 {/* <th className={"p-4 font-bold no-print"}>عملیات</th> */}
               </tr>
               {renderTable}
             </tbody>
           </table>
           <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 mb-2 bg-gray-300"}>
-            <div className={"w-11/12 h-auto p-4 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
-              <h1 className={'font-mono text-base'}>{'جمع کل' + ' ' + Number(sum).toLocaleString() + ' ' + 'ریال'}</h1>
+            <div className={"w-11/12 h-auto p-4 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-lg print:text-sm'}>{'جمع هزینه اولیه' + ' ' + PN.convertEnToPe(Number(sum).toLocaleString()) + ' ' + 'ریال'}</h1>
             </div>
-            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
-              <h1 className={'font-mono text-base'}>{'جمع مانده' + ' ' + Number(finalSum).toLocaleString() + ' ' + 'ریال'}</h1>
+            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-lg print:text-sm'}>{'جمع مانده' + ' ' + PN.convertEnToPe(Number(finalSum).toLocaleString()) + ' ' + 'ریال'}</h1>
             </div>
           </div>
         </div>

@@ -2,16 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@media print
-{    
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
+.page-number{
+    content: counter(page)
 }
 
-@page:right{
-    @bottom-right {
-      content: counter(page);
-    }
+#pageFooter:after {
+    counter-increment: page;
+    content: "Page " counter(page) " of " counter(pages);
+}
+@media print {
+    tr { page-break-after: always; }
   }
