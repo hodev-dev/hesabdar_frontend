@@ -1,3 +1,4 @@
+import PN from 'persian-number';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
@@ -81,14 +82,13 @@ const ManageCosts = () => {
       </tr>
     );
   } else {
-    renderTable = sections.map((section) => {
+    renderTable = sections.map((section, index) => {
       return (
         <tr key={section.id} className={"font-medium text-center hover:bg-gray-300"}>
-          <td>{section.id}</td>
+          <td>{PN.convertEnToPe(Number(index + 1))}</td>
           <td>{section.name}</td>
-          <td>{section.group_id}</td>
-          <td>{section.users}</td>
-          <td>{section.produce}</td>
+          <td>{PN.convertEnToPe(Number(section.group_id))}</td>
+          <td>{PN.convertEnToPe(Number(section.sharable))}</td>
           <td className={"flex flex-col"}>
             <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 text-white bg-blue-800 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
             <button onClick={() => goToSectionTahsim(section)} className={"w-full h-auto p-2 text-white border border-gray-200 border-none bg-violet-800 font-small hover:bg-violet-500"}>گزارش تسهیم</button>
@@ -115,8 +115,7 @@ const ManageCosts = () => {
                 <th className={"p-4 font-bold"}>ردیف</th>
                 <th className={"p-4 font-bold"}>نام مرکز</th>
                 <th className={"p-4 font-bold"}>گروه</th>
-                <th className={"p-4 font-bold"}>تعداد پرسنل</th>
-                <th className={"p-4 font-bold"}>میزان تولید</th>
+                <th className={"p-4 font-bold"}>وضعیت تسهیم</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
               </tr>
               {renderTable}
