@@ -2,6 +2,7 @@ import PN from 'persian-number';
 import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { store } from 'react-notifications-component';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
@@ -16,6 +17,16 @@ const ListCosts = (props) => {
   const [finalSum, setFinalSum] = useState(0);
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [prevVlaueWageSum, setPrevVlaueWageSum] = useState(0);
+  const [finalWageSum, setFinalWageSum] = useState(0);
+  const [finalBime, setFinalBime] = useState(0);
+  const [prevBime, setPrevBime] = useState(0);
+  const [prevSanavat, setPrevSanavat] = useState(0);
+  const [finalSanavat, setFinalSanavat] = useState(0);
+  const [prevTamir, setPrevTamir] = useState(0);
+  const [finalTamir, setFinalTamir] = useState(0);
+  const [prevEstelak, setPrevEstelak] = useState(0);
+  const [finalEstelak, setFinalEstelak] = useState(0);
 
   useEffect(() => {
     request_section();
@@ -26,8 +37,18 @@ const ListCosts = (props) => {
       setCosts(response.data.sections_with_costs.costs);
       setSection(response.data.sections_with_costs);
       setIsLoading(false);
-      setSum(response.data.sum)
-      setFinalSum(response.data.final_sum)
+      setSum(response.data.sum);
+      setFinalSum(response.data.final_sum);
+      setPrevVlaueWageSum(response.data.prev_vlaue_wage_sum);
+      setFinalWageSum(response.data.final_wage_sum);
+      setPrevBime(response.data.prev_value_bime);
+      setFinalBime(response.data.final_bime);
+      setPrevSanavat(response.data.prev_value_sanavat);
+      setFinalSanavat(response.data.final_sanavat);
+      setPrevTamir(response.data.prev_value_tamir);
+      setFinalTamir(response.data.final_tamir);
+      setPrevEstelak(response.data.prev_vlaue_estelak);
+      setFinalEstelak(response.data.final_estelak);
       console.log('response', response);
     }).catch((err) => {
       console.log(err);
@@ -55,6 +76,7 @@ const ListCosts = (props) => {
       console.log({ response });
       setIsLoading(false);
       request_section();
+    }).catch((err) => {
     });
   }
 
@@ -74,7 +96,21 @@ const ListCosts = (props) => {
   }
 
   const handlePrint = () => {
-    window.print();
+    store.addNotification({
+      title: "عملیات موفق",
+      message: "تسهیم با موفقیت انجام شد",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", 'animate__pulse'],
+      animationOut: ["animate__animated animate__fadeInBottomLeft"],
+      showIcon: true,
+      dismiss: {
+        duration: 1000,
+        onScreen: true
+      }
+    });
+    // window.print();
   }
 
   let renderTable;
@@ -151,6 +187,42 @@ const ListCosts = (props) => {
               <h1 className={'font-mono text-lg print:text-sm'}>{'جمع مانده' + ' ' + PN.convertEnToPe(Number(finalSum).toLocaleString()) + ' ' + 'ریال'}</h1>
             </div>
           </div>
+        </div>
+        <div className={"flex flex-col items-center justify-center w-full h-auto bg-gray-300"}>
+          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
+            <tbody>
+              <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مستقیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>عیره مستقیم</th>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'حقوق و دستمزد'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevVlaueWageSum).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalWageSum).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'بیمه سهم کارفرما'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevBime).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalBime).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'سنوات و خدمات'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevSanavat).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalSanavat).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'هزینه تعمیر و نگهداری'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevTamir).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalTamir).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'استهلاک'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevEstelak).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalEstelak).toLocaleString())}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <Sidebar />
