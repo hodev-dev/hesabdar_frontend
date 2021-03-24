@@ -32,7 +32,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "app:start": "export ELECTRON_IS_DEV=1 && ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
+    "app:start": "export ELECTRON_IS_DEV=1 && export ELECTRON_DISABLE_SECURITY_WARNINGS=true && electron .",
     "app:build": "mkdir build/src && cp -r electron/. build/electron",
     "app:pack": "electron-builder build  --win"
   },

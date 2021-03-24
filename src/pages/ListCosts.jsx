@@ -75,6 +75,44 @@ const ListCosts = (props) => {
     Axios.post('/tahsim', { 'id': section.id }).then((response) => {
       console.log({ response });
       setIsLoading(false);
+      store.addNotification({
+        title: "عملیات موفق",
+        message: "تسهیم با موفقیت انجام شد",
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", 'animate__pulse'],
+        animationOut: ["animate__animated animate__fadeInBottomLeft"],
+        showIcon: true,
+        dismiss: {
+          duration: 1000,
+          onScreen: true
+        }
+      });
+      request_section();
+    }).catch((err) => {
+    });
+  }
+
+  const startTashimProduce = () => {
+    setIsLoading(true);
+    Axios.post('/tahsim_produce', { 'id': section.id }).then((response) => {
+      console.log({ response });
+      setIsLoading(false);
+      store.addNotification({
+        title: "عملیات موفق",
+        message: "تسهیم با موفقیت انجام شد",
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", 'animate__pulse'],
+        animationOut: ["animate__animated animate__fadeInBottomLeft"],
+        showIcon: true,
+        dismiss: {
+          duration: 1000,
+          onScreen: true
+        }
+      });
       request_section();
     }).catch((err) => {
     });
@@ -96,21 +134,7 @@ const ListCosts = (props) => {
   }
 
   const handlePrint = () => {
-    store.addNotification({
-      title: "عملیات موفق",
-      message: "تسهیم با موفقیت انجام شد",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", 'animate__pulse'],
-      animationOut: ["animate__animated animate__fadeInBottomLeft"],
-      showIcon: true,
-      dismiss: {
-        duration: 1000,
-        onScreen: true
-      }
-    });
-    // window.print();
+    window.print();
   }
 
   let renderTable;
@@ -148,13 +172,14 @@ const ListCosts = (props) => {
   }
 
   return (
-    <div className={"flex flex-row w-full min-h-screen overflow-hidden"}>
-      <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300 print:w-full"}>
+    <div className={"flex flex-row w-full"}>
+      <div className={"flex flex-col w-10/12 bg-gray-300 print:w-full"}>
         <div className={"w-full h-12 bg-gray-200 print:hidden"}>
           <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
           </Link>
-          <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تسهیم هزینه ها</button>
+          <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تهسیم هزینه ها بر اساس پرسنل</button>
+          <button onClick={startTashimProduce} className={"w-auto h-auto p-3 text-center text-white bg-pink-600 hover:bg-indigo-400"}>تسهیم هزینه ها بر اساس تولید</button>
           <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
         </div>
         <div className={"flex-row justify-center hidden w-full h-auto text-2xl print:flex"}>
@@ -188,7 +213,7 @@ const ListCosts = (props) => {
             </div>
           </div>
         </div>
-        <div className={"flex flex-col items-center justify-center w-full h-auto bg-gray-300"}>
+        <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
           <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
             <tbody>
               <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
@@ -211,16 +236,16 @@ const ListCosts = (props) => {
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevSanavat).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalSanavat).toLocaleString())}</td>
               </tr>
-              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+              {/* <tr className={"hidden font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'هزینه تعمیر و نگهداری'}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevTamir).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalTamir).toLocaleString())}</td>
               </tr>
-              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+              <tr className={"hidden font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'استهلاک'}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevEstelak).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalEstelak).toLocaleString())}</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>
