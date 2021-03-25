@@ -204,7 +204,7 @@ const ListCosts = (props) => {
               {renderTable}
             </tbody>
           </table>
-          <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 mb-2 bg-gray-300"}>
+          <div className={"flex flex-col items-center justify-center w-full h-auto mt-4 mb-4 bg-gray-300"}>
             <div className={"w-11/12 h-auto p-4 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
               <h1 className={'font-mono text-lg print:text-sm'}>{'جمع هزینه اولیه' + ' ' + PN.convertEnToPe(Number(sum).toLocaleString()) + ' ' + 'ریال'}</h1>
             </div>

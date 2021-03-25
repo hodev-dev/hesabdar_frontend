@@ -1,5 +1,6 @@
 import PN from 'persian-number';
 import React, { useEffect, useRef, useState } from 'react';
+import { store } from 'react-notifications-component';
 import { Link, useHistory } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
@@ -42,9 +43,37 @@ const ManageCosts = () => {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
+      store.addNotification({
+        title: "عملیات موفق",
+        message: "دریافت فایل با موفقیت انجام شد",
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", 'animate__pulse'],
+        animationOut: ["animate__animated animate__fadeInBottomLeft"],
+        showIcon: true,
+        dismiss: {
+          duration: 1000,
+          onScreen: true
+        }
+      });
       request_section();
     }).catch(({ err }) => {
       console.log({ err });
+      store.addNotification({
+        title: "عملیات نا موفق",
+        message: "خطا",
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", 'animate__pulse'],
+        animationOut: ["animate__animated animate__fadeInBottomLeft"],
+        showIcon: true,
+        dismiss: {
+          duration: 1000,
+          onScreen: true
+        }
+      });
     });
   }
 

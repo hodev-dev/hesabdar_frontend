@@ -11,6 +11,7 @@ import Label from './pages/Label';
 import LabelCost from './pages/LabelCost';
 import ListCosts from './pages/ListCosts';
 import ManageCosts from './pages/ManageCosts';
+import SectionSum from './pages/SectionSum';
 import SectionTahsim from './pages/SectionTahsim';
 import TahsimLable from './pages/Tahsimlabel.';
 import TashimLog from './pages/TashimLog';
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/labelCost/:id/:group_code/:code/:name/" component={LabelCost} />
           <Route exact path="/tahsimLog" component={TashimLog} />
           <Route exact path="/sectionTahsim" component={SectionTahsim} />
+          <Route exact path="/sectionSum" component={SectionSum} />
         </Switch>
       </Router>
     </>

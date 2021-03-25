@@ -1,0 +1,125 @@
+import PN from 'persian-number';
+import React, { useEffect, useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { WaveSpinner } from "react-spinners-kit";
+import Sidebar from '../components/Sidebar';
+import { Axios } from '../helper/Axios';
+
+const SectionSum = (props) => {
+  const { state } = props.location;
+  const { id } = useParams();
+  let history = useHistory();
+  const [costs, setCosts] = useState([]);
+  const [title, setTitle] = useState('');
+  const [prevValueSum, setPrevValueSum] = useState(0);
+  const [changeSum, setChangeSum] = useState(0);
+  const [finalSum, setFinalSum] = useState(0);
+  const [section, setSection] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    request_section();
+  }, [])
+
+  const request_section = () => {
+    Axios.get('/get_section_label', { 'id': id }).then((response) => {
+      setCosts(response.data.group_cost);
+      setSection(response.data.group_cost);
+      setTitle(response.data.title);
+      setPrevValueSum(response.data.prev_value_sum)
+      setChangeSum(response.data.change_sum_section)
+      setFinalSum(response.data.final_sum_section)
+      setIsLoading(false);
+      console.log('response', response);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  const handlePrint = () => {
+    window.print();
+  }
+
+  let renderTable;
+
+  if (isLoading) {
+    renderTable = (
+      <tr>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+      </tr>
+    );
+  } else {
+    renderTable = Object.keys(costs).map((cost, index) => {
+      console.log(costs[cost].name);
+      return (
+        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(index + 1))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm print:hidden"}>{PN.convertEnToPe(Number(costs[cost].code))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{costs[cost].name}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm print:hidden"}>{PN.convertEnToPe(Number(costs[cost].group_id))}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(costs[cost].prev_sum).toLocaleString())}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(costs[cost].change_sum).toLocaleString())}</td>
+          <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(costs[cost].final_sum).toLocaleString())}</td>
+        </tr >
+      )
+    });
+  }
+
+  return (
+    <div className={"flex flex-row w-full min-h-screen"}>
+      <div className={"flex flex-col w-10/12 bg-gray-300 print:w-full"}>
+        <div className={"w-full h-12 bg-gray-200 print:hidden"}>
+          <Link to={'addNewSection'}>
+            <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
+          </Link>
+          <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
+        </div>
+        <div className={"flex-row justify-center hidden w-full h-auto text-2xl print:flex"}>
+          <h1 className={"w-6/12 text-center bg-white"}>شرکت نورد و لوله ی سپنتا اهواز - سهامی خاص</h1>
+        </div>
+        <div className={"flex justify-end w-full h-auto mt-2 bg-gray-300"}>
+          <h1 dir={"rtl"} className={"mr-16 text-3xl text-gray-600 print:mr-0 print:text-lg"}>{' ' + title}</h1>
+        </div>
+        <div className={"flex flex-col items-center justify-center w-full h-auto mt-4 bg-gray-300"}>
+          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
+            <tbody>
+              <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>ردیف</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1 print:hidden"}>کد شرح</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1 print:hidden"}>گروه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>جمع  هزینه ها اولیه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>جمع  تعییرات تسهیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>جمع مانده</th>
+                {/* <th className={"p-4 font-bold no-print"}>عملیات</th> */}
+              </tr>
+              {renderTable}
+            </tbody>
+          </table>
+          <div className={"flex flex-col items-center justify-center w-full h-auto mt-4 mb-4 bg-gray-300"}>
+            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-lg print:text-sm'}>{'جمع کل هزینه اولیه' + ' ' + PN.convertEnToPe(Number(prevValueSum).toLocaleString()) + ' ' + 'ریال'}</h1>
+            </div>
+            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-lg print:text-sm'}>{'جمع کل تغییرات' + ' ' + PN.convertEnToPe(Number(changeSum).toLocaleString()) + ' ' + 'ریال'}</h1>
+            </div>
+            <div className={"w-11/12 h-auto p-4 mt-2 bg-gray-200 rounded-lg shadow-sm print:p-1 print:w-full print:border print:border-gray-500 print:text-sm"} dir={"rtl"}>
+              <h1 className={'font-mono text-lg print:text-sm'}>{'جمع کل مانده' + ' ' + PN.convertEnToPe(Number(finalSum).toLocaleString()) + ' ' + 'ریال'}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Sidebar />
+    </div>
+  )
+}
+
+export default SectionSum
