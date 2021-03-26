@@ -1,7 +1,7 @@
 import PN from 'persian-number';
 import React, { useEffect, useState } from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
@@ -12,19 +12,20 @@ const SectionSum = (props) => {
   let history = useHistory();
   const [costs, setCosts] = useState([]);
   const [title, setTitle] = useState('');
+  const [select, setSelect] = useState(811);
   const [prevValueSum, setPrevValueSum] = useState(0);
   const [changeSum, setChangeSum] = useState(0);
   const [finalSum, setFinalSum] = useState(0);
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   useEffect(() => {
+    setIsLoading(true);
     request_section();
-  }, [])
+  }, [select])
 
   const request_section = () => {
-    Axios.get('/get_section_label', { 'id': id }).then((response) => {
+    Axios.post('/get_section_label', { 'group_id': select }).then((response) => {
       setCosts(response.data.group_cost);
       setSection(response.data.group_cost);
       setTitle(response.data.title);
@@ -32,7 +33,7 @@ const SectionSum = (props) => {
       setChangeSum(response.data.change_sum_section)
       setFinalSum(response.data.final_sum_section)
       setIsLoading(false);
-      console.log('response', response);
+      // console.log('response', response);
     }).catch((err) => {
       console.log(err);
     });
@@ -40,6 +41,11 @@ const SectionSum = (props) => {
 
   const handlePrint = () => {
     window.print();
+  }
+
+  const handleSelect = (event) => {
+    console.log({ select });
+    setSelect(event.target.value);
   }
 
   let renderTable;
@@ -58,9 +64,8 @@ const SectionSum = (props) => {
     );
   } else {
     renderTable = Object.keys(costs).map((cost, index) => {
-      console.log(costs[cost].name);
       return (
-        <tr key={cost.id} className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+        <tr key={costs[cost].name} className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
           <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(index + 1))}</td>
           <td className={"p-4 font-mono print:p-0 print:text-sm print:hidden"}>{PN.convertEnToPe(Number(costs[cost].code))}</td>
           <td className={"p-4 font-mono print:p-0 print:text-sm"}>{costs[cost].name}</td>
@@ -77,9 +82,13 @@ const SectionSum = (props) => {
     <div className={"flex flex-row w-full min-h-screen"}>
       <div className={"flex flex-col w-10/12 bg-gray-300 print:w-full"}>
         <div className={"w-full h-12 bg-gray-200 print:hidden"}>
-          <Link to={'addNewSection'}>
+          {/* <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
-          </Link>
+          </Link> */}
+          <select onChange={handleSelect} className={"items-center justify-center w-48 h-12 text-center"} dir={"rtl"}>
+            <option className={"w-full p-5 text-xl text-center"} value="811">تولید</option>
+            <option className={"w-full p-5 text-xl text-center"} value="813">اداری</option>
+          </select>
           <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
         </div>
         <div className={"flex-row justify-center hidden w-full h-auto text-2xl print:flex"}>
