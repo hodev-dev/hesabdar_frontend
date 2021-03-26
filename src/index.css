@@ -10,6 +10,19 @@
     counter-increment: page;
     content: "Page " counter(page) " of " counter(pages);
 }
+
+.inset-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .half-faded {
+    background-color:rgba(255,255,255,0.9);
+  }
+  .solid {
+    opacity:1 !important;
+  }
+  
 @media print {
     tr { page-break-after: always; }
   }

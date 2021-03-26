@@ -12,6 +12,8 @@ const ManageCosts = () => {
 
   const [sections, setSections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     request_section();
@@ -34,10 +36,11 @@ const ManageCosts = () => {
   }
 
   const handelExelImport = (event) => {
+    console.log("tes");
     const file = importExelRef.current.files[0];
-    console.log({ file });
     var formData = new FormData();
     formData.append("exel", file);
+    setIsLoading(true);
     Axios.post('/import_cost', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -58,6 +61,11 @@ const ManageCosts = () => {
         }
       });
       request_section();
+      setErrors(response.data.errors);
+      if (response.data.errors && response.data.errors.length > 0) {
+        setShowModal(true);
+      }
+      importExelRef.current.file = [];
     }).catch(({ err }) => {
       console.log({ err });
       store.addNotification({
@@ -78,6 +86,7 @@ const ManageCosts = () => {
   }
 
   const handleClickOnImportExel = () => {
+    importExelRef.current.files = null;;
     importExelRef.current.click();
   }
 
@@ -105,9 +114,6 @@ const ManageCosts = () => {
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
-        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
-        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
-        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
       </tr>
     );
   } else {
@@ -127,8 +133,47 @@ const ManageCosts = () => {
     });
   }
 
+  const hideModal = () => {
+    setShowModal(false);
+  }
+
   return (
     <div className={"flex flex-row w-full h-auto overflow-hidden"}>
+
+      <div className={(showModal) ? "absolute  w-full min-h-screen overflow-hidden bg-white half-faded" : "absolute hidden w-full min-h-screen overflow-hidden bg-white half-faded"}>
+        <div className={"flex flex-row"}>
+          <div className={"flex flex-col items-center w-full h-screen overflow-y-auto"}>
+            <div className={"w-10/12 h-auto bg-gray-200"}>
+              <div onClick={hideModal} className={"w-full h-12 p-1 text-lg text-white bg-black shadow-sm"}>
+                <div className={"flex flex-row"} dir={"rtl"}>
+                  <h1 className={"flex-1 m-2 text-center"}>{'نوع خطا'}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{"سطر در اکسل"}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{'بخش'}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{'گروه'}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{'کد شرح'}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{'کد مرکز هزینه'}</h1>
+                  <h1 className={"flex-1 m-2 text-center"}>{'هزینه به ریال'}</h1>
+                </div>
+              </div>
+              {errors.length > 0 && errors.map((error) => {
+                return (
+                  <div key={error.id} className={"flex flex-row bg-red-200"} dir={"rtl"}>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.name}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.index}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.label}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.group}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.code}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.id}</h1>
+                    <h1 className={"flex-1 m-2 text-center"}>{error.value}</h1>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button onClick={hideModal} className={"w-48 h-12 p-1 text-lg text-white bg-black shadow-sm"}>خروج</button>
+        </div>
+      </div>
+
       <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300"}>
         <div className={"w-full h-12 bg-gray-200 "}>
           <Link to={'addNewSection'}>
@@ -137,7 +182,7 @@ const ManageCosts = () => {
           <button onClick={handleClickOnImportExel} className={"w-auto h-auto p-3 text-center text-white bg-green-600 hover:bg-green-500"}>Exel ورودی</button>
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
-          <input onChange={handelExelImport} ref={importExelRef} type="file" name="exel" id="" className={"hidden"} multiple />
+          <input onClick={(event) => { event.target.value = null }} onChange={handelExelImport} ref={importExelRef} type="file" name="exel" id="" className={"hidden"} multiple />
           <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>

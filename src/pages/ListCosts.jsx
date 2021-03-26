@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { store } from 'react-notifications-component';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
@@ -172,12 +172,12 @@ const ListCosts = (props) => {
   }
 
   return (
-    <div className={"flex flex-row w-full"}>
+    <div className={"flex flex-row w-full min-h-screen"}>
       <div className={"flex flex-col w-10/12 bg-gray-300 print:w-full"}>
         <div className={"w-full h-12 bg-gray-200 print:hidden"}>
-          <Link to={'addNewSection'}>
+          {/* <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن هزینه به مرکز هزینه </button>
-          </Link>
+          </Link> */}
           <button onClick={handleTashim} className={"w-auto h-auto p-3 text-center text-white bg-indigo-600 hover:bg-indigo-400"}>تهسیم هزینه ها بر اساس پرسنل</button>
           <button onClick={startTashimProduce} className={"w-auto h-auto p-3 text-center text-white bg-pink-600 hover:bg-indigo-400"}>تسهیم هزینه ها بر اساس تولید</button>
           <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-indigo-400"}>پرینت</button>
@@ -219,7 +219,7 @@ const ListCosts = (props) => {
               <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
                 <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
                 <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مستقیم</th>
-                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>عیره مستقیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>غیره مستقیم</th>
               </tr>
               <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'حقوق و دستمزد'}</td>

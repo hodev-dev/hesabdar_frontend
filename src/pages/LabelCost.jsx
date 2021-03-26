@@ -1,6 +1,6 @@
 import PN from "persian-number";
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
 
@@ -79,9 +79,9 @@ const LabelCost = (props) => {
       <div className={"flex flex-row w-full h-auto"}>
         <div className={"flex flex-col w-10/12 h-screen bg-gray-300 print:w-full"}>
           <div className={"flex flex-row items-center w-full h-auto bg-gray-200"}>
-            <Link to={'addNewSection'}>
+            {/* <Link to={'addNewSection'}>
               <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400 no-print"}>افزودن هزینه به مرکز هزینه </button>
-            </Link>
+            </Link> */}
             <button onClick={handlePrint} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 no-print hover:bg-indigo-400"}>پرینت</button>
           </div>
           <div className={"flex-row justify-center hidden w-full h-auto text-2xl print:flex"}>
