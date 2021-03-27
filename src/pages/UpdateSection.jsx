@@ -87,9 +87,9 @@ const UpdateSection = (props) => {
   return (
     <div className={"flex flex-row w-full h-auto"}>
       <div className={"flex flex-col w-10/12 h-screen bg-gray-300"}>
-        <div className={"w-full h-auto bg-gray-200 "}>
+        {/* <div className={"w-full h-auto bg-gray-200 "}>
           <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>بازگشت</button>
-        </div>
+        </div> */}
         <div className={"flex flex-col items-center justify-center w-full h-screen mt-0.5 bg-gray-300"}>
           <div className={'flex flex-col items-center justify-center w-6/12 mx-auto '}>
             <input onChange={handleName} value={name} type="text" className={"w-8/12 h-10 p-4 mt-2"} placeholder={"نام مرکز هزینه"} dir={'rtl'} />

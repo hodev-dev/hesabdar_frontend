@@ -18,10 +18,13 @@ const ListCosts = (props) => {
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [prevVlaueWageSum, setPrevVlaueWageSum] = useState(0);
+  const [changeWageSum, setChangeWageSum] = useState(0);
   const [finalWageSum, setFinalWageSum] = useState(0);
   const [finalBime, setFinalBime] = useState(0);
+  const [changeBime, setChangeBime] = useState(0);
   const [prevBime, setPrevBime] = useState(0);
   const [prevSanavat, setPrevSanavat] = useState(0);
+  const [changeSanavat, setChangeSanavat] = useState(0);
   const [finalSanavat, setFinalSanavat] = useState(0);
   const [prevTamir, setPrevTamir] = useState(0);
   const [finalTamir, setFinalTamir] = useState(0);
@@ -40,10 +43,14 @@ const ListCosts = (props) => {
       setSum(response.data.sum);
       setFinalSum(response.data.final_sum);
       setPrevVlaueWageSum(response.data.prev_vlaue_wage_sum);
+      setChangeWageSum(response.data.change_wage_sum);
       setFinalWageSum(response.data.final_wage_sum);
+
       setPrevBime(response.data.prev_value_bime);
+      setChangeBime(response.data.change_bime);
       setFinalBime(response.data.final_bime);
       setPrevSanavat(response.data.prev_value_sanavat);
+      setChangeSanavat(response.data.change_sanavat);
       setFinalSanavat(response.data.final_sanavat);
       setPrevTamir(response.data.prev_value_tamir);
       setFinalTamir(response.data.final_tamir);
@@ -220,20 +227,24 @@ const ListCosts = (props) => {
                 <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
                 <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مستقیم</th>
                 <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>غیره مستقیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مانده</th>
               </tr>
               <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'حقوق و دستمزد'}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevVlaueWageSum).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeWageSum).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalWageSum).toLocaleString())}</td>
               </tr>
               <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'بیمه سهم کارفرما'}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevBime).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeBime).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalBime).toLocaleString())}</td>
               </tr>
               <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'سنوات و خدمات'}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevSanavat).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeSanavat).toLocaleString())}</td>
                 <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalSanavat).toLocaleString())}</td>
               </tr>
               {/* <tr className={"hidden font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>

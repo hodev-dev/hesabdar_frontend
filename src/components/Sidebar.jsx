@@ -13,9 +13,9 @@ const Sidebar = () => {
       <Link to={'/manageCosts'}>
         <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-800 hover:text-white"}>مدریت هزینه ها</button>
       </Link>
-      <Link to={'/tahsimLabel'}>
+      {/* <Link to={'/tahsimLabel'}>
         <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-800 hover:text-white"}>مدریت شرح تسهیم</button>
-      </Link>
+      </Link> */}
       <Link to={'/sectionSum'}>
         <button className={"w-full h-auto p-3 text-right border border-gray-300 font-small hover:bg-blue-800 hover:text-white"}>گزترش ثانویه تسهیم</button>
       </Link>

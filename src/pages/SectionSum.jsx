@@ -18,6 +18,17 @@ const SectionSum = (props) => {
   const [finalSum, setFinalSum] = useState(0);
   const [section, setSection] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [prevVlaueWageSum, setPrevVlaueWageSum] = useState(0);
+  const [changeWageSum, setChangeWageSum] = useState(0);
+  const [finalWageSum, setFinalWageSum] = useState(0);
+
+  const [finalBime, setFinalBime] = useState(0);
+  const [changeBime, setChangeBime] = useState(0);
+  const [prevBime, setPrevBime] = useState(0);
+
+  const [prevSanavat, setPrevSanavat] = useState(0);
+  const [changeSanavat, setChangeSanavat] = useState(0);
+  const [finalSanavat, setFinalSanavat] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,11 +40,23 @@ const SectionSum = (props) => {
       setCosts(response.data.group_cost);
       setSection(response.data.group_cost);
       setTitle(response.data.title);
-      setPrevValueSum(response.data.prev_value_sum)
-      setChangeSum(response.data.change_sum_section)
-      setFinalSum(response.data.final_sum_section)
+      setPrevValueSum(response.data.prev_value_sum);
+      setChangeSum(response.data.change_sum_section);
+      setFinalSum(response.data.final_sum_section);
+      setPrevVlaueWageSum(response.data.prev_vlaue_wage_sum);
+      setChangeWageSum(response.data.change_wage_sum);
+      setFinalWageSum(response.data.final_wage_sum);
+
+      setPrevBime(response.data.prev_value_bime);
+      setChangeBime(response.data.change_bime);
+      setFinalBime(response.data.final_bime);
+
+      setPrevSanavat(response.data.prev_value_sanavat);
+      setChangeSanavat(response.data.change_sanavat);
+      setFinalSanavat(response.data.final_sanavat);
+
       setIsLoading(false);
-      // console.log('response', response);
+      console.log('response', { response });
     }).catch((err) => {
       console.log(err);
     });
@@ -124,6 +147,46 @@ const SectionSum = (props) => {
               <h1 className={'font-mono text-lg print:text-sm'}>{'جمع کل مانده' + ' ' + PN.convertEnToPe(Number(finalSum).toLocaleString()) + ' ' + 'ریال'}</h1>
             </div>
           </div>
+        </div>
+        <div className={"flex flex-col items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
+          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm print:w-full"} dir={"rtl"}>
+            <tbody>
+              <tr className={"font-medium text-center text-gray-700 border border-gray-300 print:text-base print:border-black"}>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>شرح هزینه</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مستقیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>غیره مستقیم</th>
+                <th className={"p-4 text-lg font-bold print:text-sm print:p-1"}>مانده</th>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'حقوق و دستمزد'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevVlaueWageSum).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeWageSum).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalWageSum).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'بیمه سهم کارفرما'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevBime).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeBime).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalBime).toLocaleString())}</td>
+              </tr>
+              <tr className={"font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'سنوات و خدمات'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevSanavat).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(changeSanavat).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalSanavat).toLocaleString())}</td>
+              </tr>
+              {/* <tr className={"hidden font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'هزینه تعمیر و نگهداری'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevTamir).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalTamir).toLocaleString())}</td>
+              </tr>
+              <tr className={"hidden font-medium text-center hover:bg-gray-300 print:border print:border-gray-500"}>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{'استهلاک'}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(prevEstelak).toLocaleString())}</td>
+                <td className={"p-4 font-mono print:p-0 print:text-sm"}>{PN.convertEnToPe(Number(finalEstelak).toLocaleString())}</td>
+              </tr> */}
+            </tbody>
+          </table>
         </div>
       </div>
       <Sidebar />

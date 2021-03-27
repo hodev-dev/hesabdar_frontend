@@ -137,6 +137,10 @@ const ManageCosts = () => {
     setShowModal(false);
   }
 
+  const handleShowModal = () => {
+    setShowModal(true);
+  }
+
   return (
     <div className={"flex flex-row w-full h-auto overflow-hidden"}>
 
@@ -180,6 +184,7 @@ const ManageCosts = () => {
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن مرکز هزینه </button>
           </Link>
           <button onClick={handleClickOnImportExel} className={"w-auto h-auto p-3 text-center text-white bg-green-600 hover:bg-green-500"}>Exel ورودی</button>
+          {(errors.length > 0) ? <button onClick={handleShowModal} className={"w-auto h-auto p-3 text-center text-white bg-red-600 hover:bg-red-500"}>نمایش خطاها</button> : ''}
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
           <input onClick={(event) => { event.target.value = null }} onChange={handelExelImport} ref={importExelRef} type="file" name="exel" id="" className={"hidden"} multiple />
@@ -198,7 +203,7 @@ const ManageCosts = () => {
         </div>
       </div>
       <Sidebar />
-    </div>
+    </div >
   )
 }
 
