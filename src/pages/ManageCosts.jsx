@@ -1,7 +1,7 @@
 import PN from 'persian-number';
 import React, { useEffect, useRef, useState } from 'react';
 import { store } from 'react-notifications-component';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { WaveSpinner } from "react-spinners-kit";
 import Sidebar from '../components/Sidebar';
 import { Axios } from '../helper/Axios';
@@ -14,6 +14,8 @@ const ManageCosts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [showTashimModal, setShowTashimModal] = useState(false);
+  const [tashimProgess, setTashimProgess] = useState([]);
 
   useEffect(() => {
     request_section();
@@ -104,11 +106,23 @@ const ManageCosts = () => {
     });
   }
 
+  const createLabel = ({ tahsimlable_id }) => {
+    if (tahsimlable_id === 1) {
+      return 'بر اساس پرسنل';
+    } else if (tahsimlable_id === 2) {
+      return 'بر اساس تولید';
+    } else {
+      return '-';
+    }
+  }
+
   let renderTable;
 
   if (isLoading) {
     renderTable = (
       <tr>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
+        <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
         <td ><WaveSpinner size={50} color="#00007c" loading={isLoading} /></td>
@@ -120,13 +134,14 @@ const ManageCosts = () => {
     renderTable = sections.map((section, index) => {
       return (
         <tr key={section.id} className={"font-medium text-center hover:bg-gray-300"}>
-          <td>{PN.convertEnToPe(Number(index + 1))}</td>
-          <td>{section.name}</td>
-          <td>{PN.convertEnToPe(Number(section.group_id))}</td>
-          <td>{PN.convertEnToPe(Number(section.sharable))}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(index + 1))}</td>
+          <td className={"p-1 font-mono text-lg"}>{section.name}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.group_id))}</td>
+          <td className={"p-1 font-mono text-lg"}>{(Number(section.sharable) === 1) ? 'تسهیم شده' : '-'}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.share_order))}</td>
+          <td className={"p-1 font-mono text-lg"}>{createLabel(section)}</td>
           <td className={"flex flex-col"}>
             <button onClick={() => goToCosts(section)} className={"w-full h-auto p-2 text-white bg-blue-800 border border-gray-200 border-none font-small hover:bg-blue-500"}>مدریت هزینه</button>
-            <button onClick={() => goToSectionTahsim(section)} className={"w-full h-auto p-2 text-white border border-gray-200 border-none bg-violet-800 font-small hover:bg-violet-500"}>گزارش تسهیم</button>
           </td>
         </tr >
       )
@@ -139,6 +154,33 @@ const ManageCosts = () => {
 
   const handleShowModal = () => {
     setShowModal(true);
+  }
+
+
+  const handleTashimAll = () => {
+    Axios.get('/tashim_all').then((response) => {
+      console.log({ response });
+      response.data.forEach((section) => {
+        setShowTashimModal(true);
+        if (section.tahsimlable_id === 1) {
+          Axios.post('/tahsim', { 'id': section.id }).then((tashim_response) => {
+            console.log({ tashim_response });
+            setTashimProgess(prevState => [...prevState, tashim_response.data]);
+          }).catch((err) => {
+            console.log(err);
+          });
+        } else {
+          Axios.post('/tahsim_produce', { 'id': section.id }).then((tashim_response) => {
+            setTashimProgess(prevState => [...prevState, tashim_response.data]);
+          }).catch((err) => {
+            console.log(err);
+          });
+        }
+        request_section();
+      });
+    }).catch((error) => {
+      console.log('error getting list of section');
+    });
   }
 
   return (
@@ -178,13 +220,48 @@ const ManageCosts = () => {
         </div>
       </div>
 
+      <div className={(showTashimModal) ? "absolute  w-full min-h-screen overflow-hidden bg-white half-faded" : "absolute hidden w-full min-h-screen overflow-hidden bg-white half-faded"}>
+        <div className={"flex flex-row"}>
+          <div className={"flex flex-col items-center w-full h-screen overflow-y-auto"}>
+            <div className={"w-10/12 h-auto bg-gray-200"}>
+              <div className={"w-full h-12 p-1 text-lg text-white bg-black shadow-sm"}>
+                <div className={"flex flex-row"} dir={"rtl"}>
+                  <th className={"flex-1 m-2 text-center"}>ردیف</th>
+                  <th className={"flex-1 m-2 text-center"}>نام مرکز</th>
+                  <th className={"flex-1 m-2 text-center"}>گروه</th>
+                  <th className={"flex-1 m-2 text-center"}>وضعیت تسهیم</th>
+                  <th className={"flex-1 m-2 text-center"}>ترتیب تسهیم</th>
+                  <th className={"flex-1 m-2 text-center"}>نوع تسهیم</th>
+                </div>
+              </div>
+              {tashimProgess.length > 0 && tashimProgess.map((tashimProges, index) => {
+                return (
+                  <div key={tashimProges.name} className={"flex flex-row bg-yellow-200 hover:bg-yellow-400"} dir={"rtl"}>
+                    <td className={"flex-1 m-2 text-center"}>{PN.convertEnToPe(Number(index + 1))}</td>
+                    <td className={"flex-1 m-2 text-center"}>{tashimProges.name}</td>
+                    <td className={"flex-1 m-2 text-center"}>{PN.convertEnToPe(Number(tashimProges.group_id))}</td>
+                    <td className={"flex-1 m-2 text-center"}>{(Number(tashimProges.sharable) === 1) ? "تسهیم شده" :
+                      "تسهیم نشده"}</td>
+                    <td className={"flex-1 m-2 text-center"}>{PN.convertEnToPe(Number(tashimProges.share_order))}</td>
+                    <td className={"flex-1 m-2 text-center"}>{createLabel(tashimProges)}</td>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <button onClick={() => setShowTashimModal(false)} className={"w-48 h-12 p-1 text-lg text-white bg-black shadow-sm"}>خروج</button>
+        </div>
+      </div>
+
       <div className={"flex flex-col w-10/12 h-screen overflow-y-auto bg-gray-300"}>
         <div className={"w-full h-12 bg-gray-200 "}>
-          <Link to={'addNewSection'}>
+          {/* <Link to={'addNewSection'}>
             <button className={"w-auto h-auto p-3 text-center text-white bg-blue-600 hover:bg-blue-400"}>افزودن مرکز هزینه </button>
-          </Link>
+          </Link> */}
+          <button onClick={handleTashimAll} className={"w-auto h-auto p-3 text-center text-white bg-purple-600 hover:bg-purple-500"}>تسهیم کل</button>
           <button onClick={handleClickOnImportExel} className={"w-auto h-auto p-3 text-center text-white bg-green-600 hover:bg-green-500"}>Exel ورودی</button>
           {(errors.length > 0) ? <button onClick={handleShowModal} className={"w-auto h-auto p-3 text-center text-white bg-red-600 hover:bg-red-500"}>نمایش خطاها</button> : ''}
+          {(tashimProgess.length > 0) ? <button onClick={() => setShowTashimModal(true)} className={"w-auto h-auto p-3 text-center text-white bg-yellow-600 hover:bg-yellow-500"}>نمایش عملیات تسهیم</button> : ''}
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
           <input onClick={(event) => { event.target.value = null }} onChange={handelExelImport} ref={importExelRef} type="file" name="exel" id="" className={"hidden"} multiple />
@@ -195,6 +272,8 @@ const ManageCosts = () => {
                 <th className={"p-4 font-bold"}>نام مرکز</th>
                 <th className={"p-4 font-bold"}>گروه</th>
                 <th className={"p-4 font-bold"}>وضعیت تسهیم</th>
+                <th className={"p-4 font-bold"}>ترتیب تسهیم</th>
+                <th className={"p-4 font-bold"}>نوع تسهیم</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
               </tr>
               {renderTable}

@@ -4,7 +4,7 @@
   "homepage": "./",
   "productName": "hesabdar",
   "author": "Hosein Mola <aeonthread@gmail.com>",
-  "main": "build/electron/main.js",
+  "main": "electron/main.js",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",

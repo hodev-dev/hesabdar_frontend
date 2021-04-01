@@ -1,3 +1,4 @@
+import PN from 'persian-number';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
@@ -34,6 +35,15 @@ const Home = () => {
       state: { section }
     });
   }
+  const createLabel = ({ tahsimlable_id }) => {
+    if (tahsimlable_id === 1) {
+      return 'بر اساس پرسنل';
+    } else if (tahsimlable_id === 2) {
+      return 'بر اساس تولید';
+    } else {
+      return '-';
+    }
+  }
 
   let renderTable;
 
@@ -47,16 +57,16 @@ const Home = () => {
     renderTable = sections.map((section) => {
       return (
         <tr key={section.id} className={"font-medium text-center hover:bg-gray-300"}>
-          <td>{section.id}</td>
-          <td>{section.code}</td>
-          <td>{section.name}</td>
-          <td>{section.group_id}</td>
-          <td>{section.users}</td>
-          <td>{section.produce}</td>
-          <td>{(section.sharable === 1) ? 'بله'
-            : 'خیر'}</td>
-          <td>{section.tahsimlable_id}</td>
-          <td className={"flex flex-col"}>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.id))}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.code))}</td>
+          <td className={"p-1 font-mono text-lg"}>{section.name}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.group_id))}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.users))}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.produce).toLocaleString())}</td>
+          <td className={"p-1 font-mono text-lg"}>{(Number(section.sharable) === 1) ? 'تسهیم شده' : '-'}</td>
+          <td className={"p-1 font-mono text-lg"}>{PN.convertEnToPe(Number(section.share_order))}</td>
+          <td className={"p-1 font-mono text-lg"}>{createLabel(section)}</td>
+          <td className={"p-1 font-mono text-lg"} className={"flex flex-col"}>
             <button onClick={() => goToUpdate(section)} className={"w-full h-auto p-2 bg-yellow-300 border border-gray-200 border-none font-small hover:bg-yellow-500"}>ویرایش</button>
             {/* <button onClick={() => handleRemove(section)} className={"w-full h-auto p-2 bg-red-300 border border-gray-200 border-none font-small hover:bg-red-500"}>حذف</button> */}
           </td>
@@ -74,7 +84,7 @@ const Home = () => {
           </Link> */}
         </div>
         <div className={"flex items-center justify-center w-full h-auto mt-2 bg-gray-300"}>
-          <table className={"w-11/12 h-auto bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
+          <table className={"w-11/12 h-auto p-2 bg-gray-200 rounded-lg shadow-sm"} dir={"rtl"}>
             <tbody>
               <tr className={"text-gray-700 border border-gray-300"}>
                 <th className={"p-4 font-bold"}>ردیف</th>
@@ -84,6 +94,7 @@ const Home = () => {
                 <th className={"p-4 font-bold"}>تعداد پرسنل</th>
                 <th className={"p-4 font-bold"}>میزان تولید</th>
                 <th className={"p-4 font-bold"}>وضعیت تسهیم</th>
+                <th className={"p-4 font-bold"}>ترتیب تسهیم</th>
                 <th className={"p-4 font-bold"}>روش تهسیم</th>
                 <th className={"p-4 font-bold"}>عملیات</th>
               </tr>
