@@ -1,10 +1,10 @@
 {
   "name": "accountant",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "homepage": "./",
   "productName": "hesabdar",
   "author": "Hosein Mola <aeonthread@gmail.com>",
-  "main": "electron/main.js",
+  "main": "build/electron/main.js",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",

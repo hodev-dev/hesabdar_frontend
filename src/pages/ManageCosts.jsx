@@ -156,28 +156,16 @@ const ManageCosts = () => {
     setShowModal(true);
   }
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   const handleTashimAll = () => {
+    setIsLoading(true);
     Axios.get('/tashim_all').then((response) => {
-      console.log({ response });
-      response.data.forEach((section) => {
-        setShowTashimModal(true);
-        if (section.tahsimlable_id === 1) {
-          Axios.post('/tahsim', { 'id': section.id }).then((tashim_response) => {
-            console.log({ tashim_response });
-            setTashimProgess(prevState => [...prevState, tashim_response.data]);
-          }).catch((err) => {
-            console.log(err);
-          });
-        } else {
-          Axios.post('/tahsim_produce', { 'id': section.id }).then((tashim_response) => {
-            setTashimProgess(prevState => [...prevState, tashim_response.data]);
-          }).catch((err) => {
-            console.log(err);
-          });
-        }
-        request_section();
-      });
+      console.log('all_sections', { response });
+      setIsLoading(false);
+      request_section();
     }).catch((error) => {
       console.log('error getting list of section');
     });
